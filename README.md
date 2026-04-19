@@ -1,5 +1,7 @@
 # Limpid Mobile
 
+[Limpid Dashboard](https://github.com/lieutenantlin/limpid)
+
 Mobile application for field researchers to capture water sample images, record GPS coordinates and environmental metadata, run on-device microplastic analysis via an Arduino UNO Q edge device, and sync results to a backend for aggregation and reporting.
 
 ## Quick Start
