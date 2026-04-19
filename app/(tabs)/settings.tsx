@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Activity, LogOut, Radio, RotateCcw } from "lucide-react-native";
@@ -28,7 +28,7 @@ export default function SettingsScreen() {
         subtitle="Inspect the local session, BLE hardware connection, and samples waiting for a future backend."
       />
 
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <Card
           icon={<Activity size={18} color={Colors.light.tint} />}
           title="Signed in user"
@@ -74,7 +74,7 @@ export default function SettingsScreen() {
           onPress={() => void logout()}
           icon={<LogOut size={16} color={Colors.light.surface} />}
         />
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
