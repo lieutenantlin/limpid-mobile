@@ -34,7 +34,7 @@ export default function ResultScreen() {
   const sample = useMemo<WaterSample | null>(() => {
     if (!result) return null;
     return {
-      id: `smp_${Date.now()}`,
+      id: crypto.randomUUID(),
       sampleId: newSampleId(),
       capturedAt: result.processedAt,
       latitude: draft.location?.latitude ?? 0,
@@ -158,11 +158,9 @@ export default function ResultScreen() {
 
         <View style={styles.actions}>
           <SecondaryButton
-            title={
-              "Backend upload not configured"
-            }
+            title={"Upload to cloud"}
             onPress={onUpload}
-            disabled
+            disabled={uploading || saved?.uploadStatus === "uploaded"}
             icon={<Upload size={16} color={Colors.light.text} />}
           />
           <PrimaryButton

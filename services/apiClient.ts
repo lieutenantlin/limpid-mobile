@@ -1,4 +1,3 @@
-// Mock API client. TODO: replace with real fetch to AWS-backed endpoints.
 // Planned endpoints:
 //   POST /auth/login
 //   GET  /auth/me
@@ -15,22 +14,51 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-async function delay(ms: number): Promise<void> {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
 export const apiClient = {
   baseUrl: BASE_URL,
 
   async get<T>(path: string): Promise<ApiResponse<T>> {
-    console.log("[apiClient] GET", path, "(mock)");
-    await delay(400);
-    return { ok: true, status: 200 };
+    try {
+      const response = await fetch(BASE_URL + path, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      let data: T | undefined;
+      const text = await response.text();
+      if (text) {
+        const json = JSON.parse(text);
+        if (response.ok) {
+          data = json as T;
+        } else {
+          return { ok: false, status: response.status, error: json?.error };
+        }
+      }
+      return { ok: response.ok, status: response.status, data };
+    } catch (e: any) {
+      return { ok: false, status: 0, error: e.message };
+    }
   },
 
   async post<T>(path: string, body: unknown): Promise<ApiResponse<T>> {
-    console.log("[apiClient] POST", path, body, "(mock)");
-    await delay(600);
-    return { ok: true, status: 200 };
+    try {
+      const response = await fetch(BASE_URL + path, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      let data: T | undefined;
+      const text = await response.text();
+      if (text) {
+        const json = JSON.parse(text);
+        if (response.ok) {
+          data = json as T;
+        } else {
+          return { ok: false, status: response.status, error: json?.error };
+        }
+      }
+      return { ok: response.ok, status: response.status, data };
+    } catch (e: any) {
+      return { ok: false, status: 0, error: e.message };
+    }
   },
 };
